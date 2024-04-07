@@ -37,6 +37,9 @@ const App = () => {
 
   const addContact = (event) => {
     event.preventDefault()
+    if (newName === '' || newNumber === '') {
+      return alert('Name or number missing')
+    }
     let duplicate = false
     persons.forEach(person => {
       if (person.name === newName) {
