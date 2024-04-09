@@ -5,7 +5,6 @@ mongoose.set('strictQuery', false)
 
 const url = process.env.MONGODB_URI
 
-
 console.log('connecting to', url)
 mongoose.connect(url)
 
@@ -25,7 +24,7 @@ const contactSchema = new mongoose.Schema({
   number: {
     type: Number,
     required: true
-  },
+  }
 })
 
 contactSchema.set('toJSON', {
@@ -35,6 +34,5 @@ contactSchema.set('toJSON', {
     delete returnedObject.__v
   }
 })
-
 
 module.exports = mongoose.model('Contact', contactSchema)

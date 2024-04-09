@@ -12,15 +12,15 @@ app.use(express.json())
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'))
 
 app.get('/', (req, res) => {
-    Contact.find({}).then(contacts => {
-      res.json(contacts)
-    })
+  Contact.find({}).then(contacts => {
+    res.json(contacts)
+  })
 })
 
 app.get('/info', (req, res) => {
   Contact.find({}).then(contacts => {
-    const date = new Date
-  res.send(`Phonebook has info for ${contacts.length} people <br><br>${date}`)
+    const date = new Date()
+    res.send(`Phonebook has info for ${contacts.length} people <br><br>${date}`)
   })
 })
 
@@ -32,7 +32,7 @@ app.get('/api/persons/:id', (req, res, next) => {
       res.status(404).end()
     }
   })
-  .catch(error => next(error))
+    .catch(error => next(error))
 })
 
 app.delete('/api/persons/:id', (req, res, next) => {
@@ -44,18 +44,17 @@ app.delete('/api/persons/:id', (req, res, next) => {
 })
 
 app.post('/api/persons', (req, res, next) => {
-
   const body = req.body
 
   const contact = new Contact({
     name: body.name,
-    number: body.number,
+    number: body.number
   })
 
   contact.save().then(savedContact => {
     res.json(savedContact)
   })
-  .catch(error => next(error))
+    .catch(error => next(error))
 })
 
 app.get('/api/persons', (req, res) => {
@@ -79,5 +78,5 @@ app.use(errorHandler)
 
 const PORT = process.env.PORT || 3001
 app.listen(PORT, () => {
-    console.log(`server running on port ${PORT}`)
+  console.log(`server running on port ${PORT}`)
 })

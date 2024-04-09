@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-if (process.argv.length<3) {
+if (process.argv.length < 3) {
   console.log('give password as argument')
   process.exit(1)
 }
@@ -16,9 +16,8 @@ mongoose.connect(url)
 const contactSchema = new mongoose.Schema({
   name: String,
   number: Number,
-  id: Number,
+  id: Number
 })
-
 
 const Contact = mongoose.model('Contact', contactSchema)
 
@@ -26,7 +25,7 @@ if (process.argv[3] === undefined) {
   console.log('phonebook:')
   Contact.find({}).then(result => {
     result.forEach(contact => {
-    console.log(contact.name, contact.number)
+      console.log(contact.name, contact.number)
     })
     mongoose.connection.close()
   })
@@ -36,10 +35,9 @@ if (process.argv[3] === undefined) {
     number: process.argv[4],
     id: String(Math.floor(Math.random() * 10000) + 1)
   })
-      
+
   contact.save().then(result => {
     console.log(`added ${result.name} number ${result.number} to phonebook`)
     mongoose.connection.close()
   })
 }
-
