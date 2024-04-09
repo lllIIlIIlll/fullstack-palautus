@@ -46,28 +46,36 @@ const App = () => {
         duplicate = true
       }
     })
-    duplicate ? alert(`${newName} is already added to phonebook`) : setPersons(persons.concat({name: newName, number: newNumber}))
-    setPersons(persons.concat({name: newName, number: newNumber, id: persons.length+1}))
 
-    const contactObject = {
-      name: newName,
-      number: newNumber,
-      id: (persons.length+1).toString()
+    if (duplicate) {
+      alert(`${newName} is already added to phonebook`)
+    } else {
+      const contactObject = {
+        name: newName,
+        number: newNumber,
+        id: (persons.length+1).toString()
+      }
+    
+      contactsService
+        .create(contactObject)
+        .then(returnedContact => {
+          setPersons(persons.concat(returnedContact))
+          setNewName('')
+          setNewNumber('')
+          setNotification(
+            [`Added ${returnedContact.name}`, 0]
+          )
+          setTimeout(() => {
+            setNotification(null)
+          }, 3000)
+        })
+        .catch(error => {
+          setNotification([error.response.data.error], 1)
+          setTimeout(() => {
+            setNotification(null)
+          }, 3000)
+        })
     }
-  
-    contactsService
-      .create(contactObject)
-      .then(returnedContact => {
-        setPersons(persons.concat(returnedContact))
-        setNewName('')
-        setNewNumber('')
-        setNotification(
-          [`Added ${returnedContact.name}`, 0]
-        )
-        setTimeout(() => {
-          setNotification(null)
-        }, 3000)
-      })
   }
 
   const handleDeletion = (id) => {
@@ -131,13 +139,18 @@ const Persons = ({ searched, handleDelete }) => {
   return searched.map(person => <p key={person.id}>{person.name} {person.number} <button onClick={() => handleDelete(person.id)}>delete</button></p>)
 }
 
-const Notification = ({ message, type }) => {
+const Notification = ({ message }) => {
   if (message === null) {
     return null
+  } else if (message[1] === 0) {
+    return (
+      <div className="success_message">
+        {message[0]}
+      </div>
+    )
   }
-
   return (
-    <div className="success_message">
+    <div className="error_message">
       {message[0]}
     </div>
   )
