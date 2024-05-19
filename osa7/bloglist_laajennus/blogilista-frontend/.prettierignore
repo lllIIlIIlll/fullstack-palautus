@@ -1,0 +1,10 @@
+node_modules
+public
+
+.gitignore
+index.html
+package.json
+package-lock.json
+readme.md
+vite.config.js
+testSetup.js

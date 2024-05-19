@@ -1,0 +1,9 @@
+node_modules
+requests
+public
+
+.env
+.gitignore
+index.html
+package.json
+package-lock.json
